@@ -1,0 +1,9 @@
+botbund_webhook_verify_controller:
+    path: /botbund/webhook
+    controller: balzacLeGeek\BotbundBundle\Controller\BotbundController::webhookVerify
+    methods: GET
+
+botbund_webhook_receive_controller:
+    path: /botbund/webhook
+    controller: balzacLeGeek\BotbundBundle\Controller\BotbundController::webhookResponse
+    methods: POST

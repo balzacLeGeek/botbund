@@ -1,0 +1,15 @@
+services:
+    botbund.logger.services:
+        class: balzacLeGeek\BotbundBundle\Services\Logger\SLogger
+        arguments: ['%kernel.project_dir%']
+        public: true
+
+    bp.botmessenger.webhooks:
+        class: balzacLeGeek\BotbundBundle\Webhooks\Webhooks
+        arguments: ['@botbund.logger.services', '%botbund%']
+        public: true
+
+    balzacLeGeek\BotbundBundle\Controller\BotbundController:
+        arguments: ['@bp.botmessenger.webhooks']
+        # tags: ['@controller.service_arguments']
+        public: true
