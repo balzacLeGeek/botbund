@@ -20,6 +20,10 @@ class BotbundExtension extends Extension
         $configuration = new Configuration();
         $this->processConfiguration($configuration, $configs);
 
-        $container->setParameter('botbund', $configs[0]);
+        $botbundConfig = $configs[0];
+
+        $container->setParameter('botbund.fb_api_version', $botbundConfig['fb_api_version']);
+        $container->setParameter('botbund.access_token', $botbundConfig['access_token']);
+        $container->setParameter('botbund.verify_token', $botbundConfig['verify_token']);
     }
 }

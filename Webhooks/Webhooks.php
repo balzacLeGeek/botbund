@@ -3,18 +3,24 @@
 namespace balzacLeGeek\BotbundBundle\Webhooks;
 
 use balzacLeGeek\BotbundBundle\Services\Logger\SLogger;
+use balzacLeGeek\BotbundBundle\Utils\Config;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class Webhooks
 {
-    CONST PAGE_OBJECT       = 'page';
-    CONST WEBHOOK_LOG_FILE  = 'botmessenger-webhook';
+    CONST PAGE_OBJECT = 'page';
+    CONST WEBHOOK_LOG_FILE = 'botmessenger-webhook';
 
     /**
      * @var SLogger $logger
      */
     protected $logger;
+
+    /**
+     * @var Config $config
+     */
+    protected $config;
 
     /**
      * @var string $pageAccessToken
@@ -27,17 +33,13 @@ class Webhooks
     protected $pageVerifyToken;
 
     /**
-     * BotMessenger Webhook constructor
-     * 
      * @param SLogger $logger
-     * @param array $botConfig
+     * @param Config $config
      */
-    public function __construct(SLogger $logger, array $botConfig)
+    public function __construct(SLogger $logger, Config $config)
     {
-        $this->pageAccessToken = $botConfig['access_token'];
-        $this->pageVerifyToken = $botConfig['verify_token'];
-
         $this->logger = $logger;
+        $this->config = $config;
     }
 
     /**
@@ -55,7 +57,7 @@ class Webhooks
 
         if ($hub->hasMode() && $hub->hasVerifyToken() && $hub->hasChallenge()) {
 
-            if ($hub->getMode() === "subscribe" && $hub->getVerifyToken() === $this->pageVerifyToken) {
+            if ($hub->getMode() === "subscribe" && $hub->getVerifyToken() === $this->config->getVerifyToken()) {
                 $this->logger->writeLog('WEBHOOK_VERIFIED', self::WEBHOOK_LOG_FILE, true);
 
                 return new Response($hub->getChallenge());

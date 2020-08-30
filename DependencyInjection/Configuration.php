@@ -33,15 +33,15 @@ class Configuration implements ConfigurationInterface
 
         $rootNode
             ->children()
-                ->scalarNode(Config::FB_API_VERSION)
+                ->scalarNode(Config::FB_API_VERSION_KEY)
                     ->isRequired()
                     ->cannotBeEmpty()
                     ->end()
-                ->scalarNode(Config::ACCESS_TOKEN)
+                ->scalarNode(Config::ACCESS_TOKEN_KEY)
                     ->isRequired()
                     ->cannotBeEmpty()
                     ->end()
-                ->scalarNode(Config::VERIFY_TOKEN)
+                ->scalarNode(Config::VERIFY_TOKEN_KEY)
                     ->isRequired()
                     ->cannotBeEmpty()
                     ->end()
