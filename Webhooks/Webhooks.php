@@ -47,20 +47,18 @@ class Webhooks
      * 
      * @return Response Status 200 with the request hub_challenge if hub_verify_token & hub_mode matches, 401 otherwise
      */
-    public function verify(Request $request): Response
+    public function verify(Hub $hub): Response
     {
-        $queries = $request->query->all();
-
         $this->logger->writeLog('WEBHOOK_VERIFICATION_CALLED', self::WEBHOOK_LOG_FILE);
 
-        $this->logger->writeLog(json_encode($queries), self::WEBHOOK_LOG_FILE, true);
+        $this->logger->writeLog(json_encode($hub->getQueries()), self::WEBHOOK_LOG_FILE, true);
 
-        if (isset($queries['hub_mode']) && isset($queries['hub_verify_token']) && isset($queries['hub_challenge'])) {
+        if ($hub->hasMode() && $hub->hasVerifyToken() && $hub->hasChallenge()) {
 
-            if ($queries['hub_mode'] === "subscribe" && $queries['hub_verify_token'] === $this->pageVerifyToken) {
+            if ($hub->getMode() === "subscribe" && $hub->getVerifyToken() === $this->pageVerifyToken) {
                 $this->logger->writeLog('WEBHOOK_VERIFIED', self::WEBHOOK_LOG_FILE, true);
 
-                return new Response($queries['hub_challenge']);
+                return new Response($hub->getChallenge());
             }
 
             $this->logger->writeLog('WRONG_WEBHOOK_TOKEN', self::WEBHOOK_LOG_FILE, true);

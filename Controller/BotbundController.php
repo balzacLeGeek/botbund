@@ -7,7 +7,7 @@ use balzacLeGeek\BotbundBundle\Webhooks\Webhooks;
 use App\Bp\BotMessenger\Interact;
 use App\Bp\BotMessenger\Profile;
 use App\Bp\BotMessenger\ResponseFormat;
-
+use balzacLeGeek\BotbundBundle\Webhooks\Hub;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -33,7 +33,7 @@ class BotbundController
      */
     public function webhookVerify(Request $request): Response
     {
-        return $this->webhook->verify($request);
+        return $this->webhook->verify(Hub::buildFromRequest($request));
     }
 
     /**
